@@ -1,0 +1,6 @@
+runtime: php55
+api_version: 1
+
+handlers:
+- url: /api/v1/(.*)$
+  script: api/v1/mod_rewrite.php
