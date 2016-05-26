@@ -3,12 +3,13 @@ require_once('autoload.php');
 class myStoreAPI extends API
 {
 	private $storeManagerObj;
-
+	private $username;
 	public function __construct($request, $origin) {
 		parent::__construct($request);
 		$this->storeManagerObj = new storeManager();
 		$APIKey = new APIKey();
-		if (!$APIKey->verifyKey()) {
+		$this->username = $APIKey->verifyKey();
+		if (!$this->username) {
 			header("HTTP/1.1 " . "404" . " " . "Not Found");
 			echo json_encode("Unauthorized access, specify Authorization header correctly");
 			die;
