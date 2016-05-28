@@ -82,7 +82,10 @@ abstract class API
 
 	private function _response($data, $status) {
 		header("HTTP/1.1 " . $status . " " . $this->_requestStatus($status));
-		return json_encode($data);
+		if($data != NULL)
+			return json_encode($data);
+		else 
+			return NULL;
 	}
 
 	private function _cleanInputs($data) {
@@ -100,6 +103,7 @@ abstract class API
 	private function _requestStatus($code) {
 		$status = array(  
 				200 => 'OK',
+				400 => 'Bad Request',
 				404 => 'Not Found',   
 				405 => 'Method Not Allowed',
 				500 => 'Internal Server Error',
