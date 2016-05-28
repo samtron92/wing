@@ -1,4 +1,6 @@
 <?php
+ini_set("display_errors", "1");
+error_reporting(E_ALL);
 require_once('autoload.php');
 if (!array_key_exists('HTTP_ORIGIN', $_SERVER)) {
 	$_SERVER['HTTP_ORIGIN'] = $_SERVER['SERVER_NAME'];

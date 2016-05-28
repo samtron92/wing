@@ -1,4 +1,5 @@
 <?php
+
 require_once('autoload.php');
 class myStoreAPI extends API
 {
@@ -10,7 +11,7 @@ class myStoreAPI extends API
 		$APIKey = new APIKey();
 		$this->username = $APIKey->verifyKey();
 		if (!$this->username) {
-			header("HTTP/1.1 " . "404" . " " . "Not Found");
+			header("HTTP/1.1 " . "401" . " " . "Unauthorized");
 			echo json_encode("Unauthorized access, specify Authorization header correctly");
 			die;
 		}
