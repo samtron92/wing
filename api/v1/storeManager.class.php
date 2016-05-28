@@ -9,6 +9,7 @@ class storeManager {
 	public function get($action, $args) {
 		$name = NULL;
 		$id = NULL;
+		$action = strtolower($action);
 		if($action == "search" && $args != NULL)
 			$name = $args[0];
 		else if($action == NULL && $args != NULL) {
@@ -16,7 +17,7 @@ class storeManager {
 				$id = $args[0];
 			else {
 				$response['code'] = 404;
-				$response['data'] = "Only numeric id's allowed, for names please use search";
+				$response['data'] = array("response" => "Only numeric id's allowed, for names please use search");
 				return $response;
 			}
 		}
@@ -24,12 +25,12 @@ class storeManager {
 		else if($action == "search" && $args == NULL)
 		{
 			$response['code'] = 404;
-			$response['data'] = "Numeric id required after search";
+			$response['data'] = array("response" => "Numeric id required after search");
 			return $response;
 		}
 		else {
 			$response['code'] = 404;
-			$response['data'] = "Only search action can be processed";
+			$response['data'] = array("response" => "Only search action can be processed");
 			return $response;
 		}
 
@@ -41,19 +42,22 @@ class storeManager {
 		else
 			$response['data'] = $this->storeDBObj->selectAll();
 
+		if($response['data'] == NULL)
+			$response['code'] = 404;		
+		
 		return $response;
 	}
 
 	public function post($body) {
 		if(!array_key_exists('name', $body) || !array_key_exists('quantity', $body) || !array_key_exists('price', $body)) {
-			$response['code'] = 500;
-			$response['data'] = "Please provide all property values to insert";
+			$response['code'] = 400;
+			$response['data'] = array("response" => "Please provide all property values to insert");
 			return $response;
 		}
 		
 		if(!is_numeric($body['price']) || !is_numeric($body['quantity'])) {
-			$response['code'] = 500;
-                        $response['data'] = "Please provide price & quantity as numeric, and name & description(optional) as string";
+			$response['code'] = 400;
+                        $response['data'] = array("response" => "Please provide price & quantity as numeric, and name & description(optional) as string");
                         return $response;
 		}	
 		$response['code'] = 200;			
@@ -66,17 +70,17 @@ class storeManager {
 			$id = $args[0];
 		else {
 			$response['code'] = 404;
-			$response['data'] = "Only numeric id's allowed";	
+			$response['data'] = array("response" => "Only numeric id's allowed");	
 			return $response;
 		}
 		if(!array_key_exists('name', $body) || !array_key_exists('quantity', $body) || !array_key_exists('price', $body)) {
-			$response['code'] = 500;
-			$response['data'] = "Please provide all property values to update";
+			$response['code'] = 400;
+			$response['data'] = array("response" => "Please provide all property values to update");
 			return $response;
 		} 	
 		if(!is_numeric($body['price']) || !is_numeric($body['quantity'])) {
-                        $response['code'] = 500;
-                        $response['data'] = "Please provide price & quantity as numeric, and name & description(optional) as string";
+                        $response['code'] = 400;
+                        $response['data'] = array("response" => "Please provide price & quantity as numeric, and name & description(optional) as string");
                         return $response;
                 } 
 		$response['code'] = 200;		
@@ -89,7 +93,7 @@ class storeManager {
 			$id = $args[0];
 		else {
 			$response['code'] = 404;
-			$response['data'] = "Only numeric id's allowed";
+			$response['data'] = array("response" => "Only numeric id's allowed");
 			return $response;
 		}
 		$response['code'] = 200;			

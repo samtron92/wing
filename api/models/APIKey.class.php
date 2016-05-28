@@ -1,20 +1,8 @@
 <?php
 class APIKey
 {
-        private $conn;
-	public function __construct() {
-		$servername = "localhost";
-                $username = "root";
-                $password = "root";
-                try {
-                        $this->conn = new PDO("mysql:host=$servername;dbname=store", $username, $password);
-                        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                }
-                catch(PDOException $e) {
-                        echo "Connection failed: " . $e->getMessage();
-                        die;
-                }
-        }
+	private $salt = 'wingStore=>sb.iiita15@gmail.com';
+	private $method = 'blowfish';
 	public function verifyKey() {
 		$authHeader = $this->parseAuthorisationHeader();
 		if(!empty($authHeader)) {
@@ -23,9 +11,9 @@ class APIKey
 				return $this->validateId($params['id']);
 			}
 			else	
-				return false;
+				return NULL;
 		} else
-			return false;
+			return NULL;
 	}
 
 	private function parseAuthorisationHeader()
@@ -42,12 +30,12 @@ class APIKey
 	private function validateId($idValue)
 	{
 		if($idValue) {
-			$username = $this->FetchUsernameFromUniqueId($idValue);
+			$username = $this->decrypt($idValue);
 			if(!$username)
-				return false;
-			return true;
+				return NULL;
+			return $username;
 		} else
-			return false;
+			return NULL;
 	}
 
 	private function parseAuthParams($paramString)
@@ -62,22 +50,11 @@ class APIKey
 		return $paramArrayFinal;
 	}
 	
-	function FetchUsernameFromUniqueId($idValue) {
-		return $this->selectUser($idValue);				
+	private function encrypt($data) {
+		return openssl_encrypt($data, $this->method, $this->salt);
 	}
-	
-	private function selectUser($password) {
-                try {
-                        $sql = "SELECT username FROM authenticate WHERE password = :pass";
-                        $stmt = $this->conn->prepare($sql);
-                        $stmt->bindParam(':pass', $password);
-                        $stmt->execute();
-                        $result = $stmt->fetchColumn();
-                        return $result;
-                }
-                catch(PDOException $e) {
-                        echo "Error: " . $e->getMessage();
-                        die;
-                }
+		
+	private function decrypt($data) {
+                return openssl_decrypt($data, $this->method, $this->salt);
         }
 }
