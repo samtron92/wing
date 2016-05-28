@@ -61,7 +61,7 @@ class storeManager {
                         return $response;
 		}	
 		$response['code'] = 200;			
-		$response['data'] = $this->storeDBObj->insert($body); 
+		$response['data'] = array("response" => $this->storeDBObj->insert($body)); 
 		return $response;
 	}	
 
@@ -84,7 +84,7 @@ class storeManager {
                         return $response;
                 } 
 		$response['code'] = 200;		
-		$response['data'] = $this->storeDBObj->update($id, $body);	
+		$response['data'] = array("response" => $this->storeDBObj->update($id, $body));	
 		return $response;
 	}
 
@@ -97,7 +97,7 @@ class storeManager {
 			return $response;
 		}
 		$response['code'] = 200;			
-		$response['data'] = $this->storeDBObj->delete($id);	
+		$response['data'] = array("response" => $this->storeDBObj->delete($id));	
 		return $response;
 	}	
 }

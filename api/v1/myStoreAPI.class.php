@@ -12,7 +12,7 @@ class myStoreAPI extends API
 		$this->username = $APIKey->verifyKey();
 		if (!$this->username) {
 			header("HTTP/1.1 " . "401" . " " . "Unauthorized");
-			echo json_encode("Unauthorized access, specify Authorization header correctly");
+			echo json_encode(array("response" => "Unauthorized access, specify Authorization header correctly"));
 			die;
 		}
 	}
