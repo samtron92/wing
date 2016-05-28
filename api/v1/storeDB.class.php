@@ -61,12 +61,12 @@ class storeDB {
 
 	public function insert($data) {
 		try {
-			$sql = "INSERT INTO items (name, quantity, price, description) VALUES (:name, :quantity, :price, :desc)";
+			$sql = "INSERT INTO items (name, quantity, price, description) VALUES (:name, :quantity, :price, :description)";
 			$stmt = $this->conn->prepare($sql);
 			$stmt->bindParam(':name', $data['name']);
 			$stmt->bindParam(':quantity', $data['quantity']);
 			$stmt->bindParam(':price', $data['price']);
-			$stmt->bindParam(':desc', $data['desc']);
+			$stmt->bindParam(':description', $data['description']);
 			$stmt->execute();
 			$last_id = $this->conn->lastInsertId();
 			return "New record created successfully. Last inserted ID is: " . $last_id;
@@ -79,12 +79,12 @@ class storeDB {
 
 	public function update($id, $data) {
 		try {
-			$sql = "UPDATE items SET name = :name, quantity = :quantity, price = :price, description = :desc WHERE id = :id";
+			$sql = "UPDATE items SET name = :name, quantity = :quantity, price = :price, description = :description WHERE id = :id";
 			$stmt = $this->conn->prepare($sql);
 			$stmt->bindParam(':name', $data['name']);
 			$stmt->bindParam(':quantity', $data['quantity']);
 			$stmt->bindParam(':price', $data['price']);
-			$stmt->bindParam(':desc', $data['desc']);
+			$stmt->bindParam(':description', $data['description']);
 			$stmt->bindParam(':id', $id);
 			$stmt->execute();
 			return "Record updated successfully. Last updated ID is: " . $id;
