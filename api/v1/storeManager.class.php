@@ -25,7 +25,7 @@ class storeManager {
 		else if($action == "search" && $args == NULL)
 		{
 			$response['code'] = 404;
-			$response['data'] = array("response" => "Numeric id required after search");
+			$response['data'] = array("response" => "Search name required after search");
 			return $response;
 		}
 		else {
@@ -51,7 +51,7 @@ class storeManager {
 	public function post($body) {
 		if(!array_key_exists('name', $body) || !array_key_exists('quantity', $body) || !array_key_exists('price', $body)) {
 			$response['code'] = 400;
-			$response['data'] = array("response" => "Please provide all property values to insert");
+			$response['data'] = array("response" => "Please provide all property values to insert: price, quantity, name and description");
 			return $response;
 		}
 		
@@ -75,7 +75,7 @@ class storeManager {
 		}
 		if(!array_key_exists('name', $body) || !array_key_exists('quantity', $body) || !array_key_exists('price', $body)) {
 			$response['code'] = 400;
-			$response['data'] = array("response" => "Please provide all property values to update");
+			$response['data'] = array("response" => "Please provide all property values to update: price, quantity, name and description");
 			return $response;
 		} 	
 		if(!is_numeric($body['price']) || !is_numeric($body['quantity'])) {
