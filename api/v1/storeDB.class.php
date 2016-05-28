@@ -1,10 +1,11 @@
 <?php
+require_once('constants.php');
 class storeDB {
 	private $conn;
 	public function __construct() {
-		$servername = "localhost";
-		$username = "root";
-		$password = "root";
+		$servername = SERVER;
+		$username = USER;
+		$password = PASS;
 		try {
 			$this->conn = new PDO("mysql:host=$servername;dbname=store", $username, $password);
 			$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
